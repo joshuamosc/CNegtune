@@ -8,7 +8,7 @@ using namespace std;
 
 namespace fs = filesystem;
 
-void firstMenu(string server_file, string cnegtune_files_dir)
+void firstMenu(string server_file, string cnegtune_files_dir, struct ServerConfiguration server)
 {
     // Variable where the ip introduced by the user is gonna be saved
     string ip;
@@ -22,11 +22,11 @@ void firstMenu(string server_file, string cnegtune_files_dir)
     // Write main information and configuration to server configuration file
     writeFile(server_file, "# Please, dont modify this file under any circumstances if you don't know the configuration patterns!\n"
                            "# For more information about the configuration patterns, please visit https://github.com/joshuamosc/CNegtune/\n\n"
-                           "-connection\nremote\n\n");
+                           "-connection\nremote\n\n-ipVersion\nIPv4\n\n");
 
     // Show Menu
     cout << endl << "--- Welcome to CNegtune ---" << endl;
-    cout << endl << "[*] Please, enter the IP of the server you want to connect to" << endl;
+    cout << endl << "[*] Please, enter the IP of the server you want to connect to!" << endl;
     cout << endl << "[CNegtune]> ";
     getline(cin, ip);
 
@@ -36,15 +36,26 @@ void firstMenu(string server_file, string cnegtune_files_dir)
 
     // Clear screen to go to the other menu
     clrscr();
-    // Call the other menu here to create recursivity, so the program doesn't finish
-    menu(server_file, cnegtune_files_dir);
+
+    bool isValidServerConf = verifyValidServerConfFile(server_file);
+
+    if (isValidServerConf){
+        // Call the other menu here to create recursivit, so the program doesn't finish
+        menu(server_file, cnegtune_files_dir, server);
+    } else {
+        cout << endl << "[x] Enter an IP Address!" << endl;
+        firstMenu(server_file, cnegtune_files_dir, server); // call the self function
+    }
 }
 
-void menu(string server_file, string cnegtune_files_dir)
+void menu(string server_file, string cnegtune_files_dir, struct ServerConfiguration server)
 {
+    // Asign the values to server, if it entered to menu(), then the configuration file is correct
+    asignServer(server_file, server); // It's not required to be put in firstMenu(), because it will always call menu()
+
     // Show menu
-    cout << endl << "--- Welcome to CNegtune ---" << endl;
-    cout << endl << "1.- Log In\n2.- Sign Up\n3.- Change server" << endl;
+    cout << endl << "--- CNegtune [" << server.serverName <<"] ---" << endl;
+    cout << endl << "1.- Log In\n2.- Sign Up\n3.- Server Info\n4.- Change server\n" << endl;
     // Choose an option by pressing a key
     char option = char(getch());
 
@@ -61,11 +72,26 @@ void menu(string server_file, string cnegtune_files_dir)
     }
     else if(option == '3')
     {
+        clrscr();
+        asignServer(server_file, server); // To refresh and not show the last info
+        cout << endl << "--- CNegtune Server Info ---" << endl;
+        cout << "\nType of Connection: " << server.connection << endl;
+        cout << "Server Name: " << server.serverName << endl;
+        cout << "Server IP: " << server.ip << endl;
+        cout << "IP Version: " << server.ipVersion << endl;
+        cout << "\n[!] If you want to modify these values, please visit https://github.com/joshuamosc/CNegtune\n\n";
+        cout << "Press any key to go back!\n";
+        getch();
+        clrscr();
+        menu(server_file, cnegtune_files_dir, server);
+    }
+    else if(option == '4')
+    {
         // We are gonna remove the file to enter again the configuration
         removeFile(server_file);
         // Clear screen to show the other menu
         clrscr();
         // Create recursive function, so the program doesn't finish
-        firstMenu(server_file, cnegtune_files_dir);
+        firstMenu(server_file, cnegtune_files_dir, server);
     }
 }

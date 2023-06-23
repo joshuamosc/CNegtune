@@ -21,6 +21,7 @@
 #include "files.h"
 #include "crossPlatformsFunctionalities.h"
 #include "menu.h"
+#include "filesConfiguration.h"
 
 // Macros
 #if defined(_WIN64) || defined(_WIN32)

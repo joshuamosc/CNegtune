@@ -50,3 +50,37 @@ bool directoryExists(string path)
     bool directoryExists = fs::exists(path);
     return directoryExists;
 }
+
+bool verifyValidServerConfFile(string server_file)
+{
+    bool isValid = false, pass = false;
+    string data, ip = "";
+
+    bool serverFileExists = fileExists(server_file);
+
+    if ( serverFileExists ) {
+        ifstream File(server_file);
+        while(getline(File, data)){
+            if (pass) {
+                ip = data;
+                break;
+            }
+            if (data == "-ip"){
+                pass = true;
+            }
+        }
+
+        File.close();
+
+        if (ip != ""){
+            isValid = true;
+        }
+    }
+
+    if (!isValid && serverFileExists) {
+        removeFile(server_file);
+    }
+
+    return isValid;
+}
+
