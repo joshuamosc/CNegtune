@@ -62,13 +62,44 @@ void menu(string server_file, string cnegtune_files_dir, struct ServerConfigurat
     // Evaluate each option
     if (option == '1')
     {
+        string id;
+        char password[100];
+
         clrscr();
-        cout << "Logging in";
+        cout << "\n--- Log In to " << server.serverName << " ---\n";
+        cout << "\n[ID]> ";
+        getline(cin, id);
+        cout << "[Password]> ";
+        for (char & i : password) {
+            i = char(getch());
+            if ( int(i) == 13 ) {
+                break;
+            }
+        }
+
+        clrscr();
+        cout << "\nLogging in...\n";
+
     }
     else if (option == '2')
     {
+        string email, fullName, message;
         clrscr();
-        cout << "\nRequest an account - Form\n";
+
+        cout << "\n--- Request an account ---\n";
+        cout << "\n[Full Name]> ";
+        getline(cin, fullName);
+        cout << "[Email]> ";
+        getline(cin, email);
+        cout << "[Optional Message]> ";
+        getline(cin, message);
+
+        clrscr();
+        cout << "\nAccount request sent to " << server.serverName << "...\n";
+        cout << "\nPress any key to go back!\n";
+        getch();
+        clrscr();
+        menu(server_file, cnegtune_files_dir, server);
     }
     else if(option == '3')
     {
