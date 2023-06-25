@@ -3,4 +3,4 @@ project(CNegtune)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(CNegtune main.cpp headers/CNegtuneDirectives.h features/files.cpp headers/files.h features/crossPlatformsFunctionalities.cpp headers/crossPlatformsFunctionalities.h features/menu.cpp headers/menu.h features/filesConfiguration.cpp headers/filesConfiguration.h)
+add_executable(CNegtune main.cpp headers/CNegtuneDirectives.h features/files.cpp headers/files.h features/crossPlatformsFunctionalities.cpp headers/crossPlatformsFunctionalities.h features/menu.cpp headers/menu.h features/serverFileConfiguration.cpp headers/serverFileConfiguration.h)

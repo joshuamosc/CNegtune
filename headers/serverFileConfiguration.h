@@ -15,5 +15,6 @@ struct ServerConfiguration {
 #define CNEGTUNE_FILESCONFIGURATION_H
 
 void asignServer(std::string server_file, struct ServerConfiguration&);
+bool verifyValidServerConfFile(std::string server_file);
 
 #endif //CNEGTUNE_FILESCONFIGURATION_H

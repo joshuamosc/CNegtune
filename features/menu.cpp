@@ -104,17 +104,22 @@ void menu(string server_file, string cnegtune_files_dir, struct ServerConfigurat
     else if(option == '3')
     {
         clrscr();
-        asignServer(server_file, server); // To refresh and not show the last info
-        cout << endl << "--- CNegtune Server Info ---" << endl;
-        cout << "\nType of Connection: " << server.connection << endl;
-        cout << "Server Name: " << server.serverName << endl;
-        cout << "Server IP: " << server.ip << endl;
-        cout << "IP Version: " << server.ipVersion << endl;
-        cout << "\n[!] If you want to modify these values, please visit https://github.com/joshuamosc/CNegtune\n\n";
-        cout << "Press any key to go back!\n";
-        getch();
-        clrscr();
-        menu(server_file, cnegtune_files_dir, server);
+        if (verifyValidServerConfFile(server_file)) {
+            asignServer(server_file, server); // To refresh and not show the last info
+            cout << endl << "--- CNegtune Server Info ---" << endl;
+            cout << "\nType of Connection: " << server.connection << endl;
+            cout << "Server Name: " << server.serverName << endl;
+            cout << "Server IP: " << server.ip << endl;
+            cout << "IP Version: " << server.ipVersion << endl;
+            cout << "\n[!] If you want to modify these values, please visit https://github.com/joshuamosc/CNegtune\n\n";
+            cout << "Press any key to go back!\n";
+            getch();
+            clrscr();
+            menu(server_file, cnegtune_files_dir, server);
+        } else {
+            clrscr();
+            firstMenu(server_file, cnegtune_files_dir, server);
+        }
     }
     else if(option == '4')
     {
